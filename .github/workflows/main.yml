@@ -7,6 +7,11 @@ on:
     branches:
       - main
       - master
+      
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   # Job 1: Run Unit Tests (Must pass to proceed)
