@@ -1,0 +1,62 @@
+# .github/workflows/docs.yml
+name: Build and Deploy Sphinx Docs
+
+# Trigger on pushes to the main/master branch
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  # Job 1: Run Unit Tests (Must pass to proceed)
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Unit Tests
+        # The '-m unittest' command executes the tests found in test_calculator.py
+        run: python -m unittest test_calculator.py
+        # If any test fails, this step fails, and the workflow terminates.
+
+  # Job 2: Build and Deploy Documentation
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: test # <--- Ensures this job only runs if the 'test' job succeeded
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install documentation dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Sphinx Build
+        # Builds the HTML output into the _build/html directory
+        run: sphinx-build -b html docs _build/html
+
+      - name: Deploy to GitHub Pages
+        # This action automatically handles publishing the documentation
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _build/html
+          # The output will be pushed to the 'gh-pages' branch
