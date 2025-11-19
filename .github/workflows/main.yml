@@ -7,6 +7,11 @@ on:
     branches:
       - main
       - master
+      
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   # Job 1: Run Unit Tests (Must pass to proceed)
@@ -36,6 +41,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: test # <--- Ensures this job only runs if the 'test' job succeeded
 
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,13 +60,17 @@ jobs:
           pip install -r requirements.txt
 
       - name: Sphinx Build
-        # Builds the HTML output into the _build/html directory
-        run: sphinx-build -b html docs _build/html
+        # Builds the HTML output into the standard _site directory for Pages deployment
+        run: sphinx-build -b html docs _site
+
+      - name: Upload artifact
+        # Uploads the built documentation as a deployable artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
 
       - name: Deploy to GitHub Pages
-        # This action automatically handles publishing the documentation
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _build/html
-          # The output will be pushed to the 'gh-pages' branch
+        id: deployment
+        # Official GitHub action for deploying the artifact
+        uses: actions/deploy-pages@v4
+
