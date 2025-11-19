@@ -15,5 +15,3 @@ calculator documentation
 * :ref:`getindex`
 * :ref:`modindex`
 * :ref:`search`
-
-calculator_api
