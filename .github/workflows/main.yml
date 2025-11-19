@@ -71,7 +71,6 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
-        id-token: write
         # Official GitHub action for deploying the artifact
         uses: actions/deploy-pages@v4
 
