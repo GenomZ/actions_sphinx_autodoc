@@ -3,9 +3,7 @@ import unittest
 from calculator.calculator import Calculator
 
 
-
-
-class TestCalculator(unittest.TestCase):       
+class TestCalculator(unittest.TestCase):
     """Tests for the Calculator class."""
 
     def setUp(self):
@@ -27,6 +25,7 @@ class TestCalculator(unittest.TestCase):
     def test_subtract_zero(self):
         """Test subtraction resulting in zero."""
         self.assertEqual(self.calc.subtract(5, 5), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
