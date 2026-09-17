@@ -14,7 +14,7 @@ class Calculator:
         :param b: The second number.
         :return: The sum of a and b.
         """
-        return a + b
+        return a + b * 2
 
     def subtract(self, a: float, b: float) -> float:
         """

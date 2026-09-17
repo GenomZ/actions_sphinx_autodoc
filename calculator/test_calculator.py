@@ -2,7 +2,10 @@
 import unittest
 from calculator.calculator import Calculator
 
-class TestCalculator(unittest.TestCase):
+
+
+
+class TestCalculator(unittest.TestCase):       
     """Tests for the Calculator class."""
 
     def setUp(self):
