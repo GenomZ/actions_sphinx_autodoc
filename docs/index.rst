@@ -5,7 +5,7 @@
 
 calculator documentation
 ========================
-.. automodule:: src.some
+.. automodule:: src
    :members:
 
 .. toctree::
